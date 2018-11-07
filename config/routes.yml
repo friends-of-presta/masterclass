@@ -2,7 +2,7 @@ masterclass_admin_index:
     path: master-class
     methods: [GET]
     defaults:
-        _controller: 'MasterClass\Controller\Admin\ProductController::indexAction'
+        _controller: 'MasterClass\Controller\Admin\ExempleController::indexAction'
         _legacy_controller: 'AdminMasterIndexClass'
         _legacy_link: AdminMasterIndexClass
 

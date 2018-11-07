@@ -27,6 +27,7 @@
 namespace MasterClass\Controller\Admin;
 
 use MasterClass\Filter\ProductFilter;
+use PrestaShopBundle\Security\Annotation\AdminSecurity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,12 +38,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProductController extends Controller
 {
-    public function indexAction()
-    {
-        return $this->render('@Modules/masterclass/views/admin/index.html.twig');
-    }
-
     /**
+     * @AdminSecurity(
+     *     "is_granted(['read'], request.get('_legacy_controller'))",
+     *     message="You do not have permission to access Products listing page."
+     * )
      * Show products listing
      *
      * @param ProductFilter $filters

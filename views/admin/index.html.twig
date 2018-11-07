@@ -1,5 +1,17 @@
 {% extends '@PrestaShop/Admin/layout.html.twig' %}
 
 {% block content %}
-  Hello World
+<div class="row">
+  <div class="col">
+    <h2>Products listing settings</h2>
+    <div class="card">
+      <h3 class="card-header">
+        <i class="material-icons">notification_important</i> {{ 'Notifications'|trans }}
+      </h3>
+      <div class="card-block">
+        {{ form(notificationsForm) }}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

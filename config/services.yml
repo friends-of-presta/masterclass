@@ -3,6 +3,10 @@ services:
         # make all services accessible directly from container
         public: true
 
+    #
+    # Grid system
+    #
+
     # Register our grid definition factory
     demogrid.grid.product_grid_definition_factory:
         class: 'MasterClass\Grid\ProductGridDefinitionFactory'
