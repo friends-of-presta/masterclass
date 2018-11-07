@@ -3,16 +3,16 @@ masterclass_admin_index:
     methods: [GET]
     defaults:
         _controller: 'MasterClass\Controller\Admin\ProductController::indexAction'
-        _legacy_controller: 'AdminMasterClass'
-        _legacy_link: AdminMasterClass:index
+        _legacy_controller: 'AdminMasterIndexClass'
+        _legacy_link: AdminMasterIndexClass
 
 masterclass_admin_products:
     path: master-class/products
     methods: [GET]
     defaults:
         _controller: 'MasterClass\Controller\Admin\ProductController::listingAction'
-        _legacy_controller: 'AdminMasterClass'
-        _legacy_link: AdminMasterClass:listing
+        _legacy_controller: 'AdminMasterListingClass'
+        _legacy_link: AdminMasterListingClass
 
 masterclass_admin_products_search:
     path: master-class/products

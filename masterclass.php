@@ -66,6 +66,7 @@ class masterclass extends Module
     public function uninstall()
     {
         return parent::uninstall() &&
+            $this->uninstallTabs() &&
             $this->unregisterHook('actionLogsGridDefinitionModifier')
         ;
     }
@@ -120,5 +121,32 @@ class masterclass extends Module
         $indexTab->module = $this->name;
 
         $indexTab->add();
+
+        $listingTab = new Tab();
+        $listingTab->active = 1;
+        $listingTab->class_name = 'AdminMasterListingClass';
+        $listingTab->name = array();
+        foreach (Language::getLanguages(true) as $lang) {
+            $listingTab->name[$lang['id_lang']] = 'Listing';
+        }
+
+        $listingTab->id_parent = (int) Tab::getIdFromClassName('AdminMasterClass');
+
+        $listingTab->module = $this->name;
+
+        $listingTab->add();
+    }
+
+    public function uninstallTabs()
+    {
+        $id_tab = (int) Tab::getIdFromClassName('AdminMasterIndexClass');
+        $tab = new Tab($id_tab);
+
+        $tab->delete();
+
+        $id_tab = (int) Tab::getIdFromClassName('AdminMasterClass');
+        $tab = new Tab($id_tab);
+
+        $tab->delete();
     }
 }
