@@ -55,10 +55,15 @@ class masterclass extends Module
      */
     public function install()
     {
-        return parent::install() &&
+
+        $installStatus = parent::install() &&
             $this->installTabs() &&
             $this->registerHook('actionLogsGridDefinitionModifier')
         ;
+
+        Tools::clearSf2Cache();
+
+        return $installStatus;
     }
 
     /**
@@ -68,10 +73,14 @@ class masterclass extends Module
      */
     public function uninstall()
     {
-        return parent::uninstall() &&
+        $uninstallStatus = parent::uninstall() &&
             $this->uninstallTabs() &&
             $this->unregisterHook('actionLogsGridDefinitionModifier')
         ;
+
+        Tools::clearSf2Cache();
+
+        return $uninstallStatus;
     }
 
     /**
