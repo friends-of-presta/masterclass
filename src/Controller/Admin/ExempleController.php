@@ -50,8 +50,7 @@ class ExempleController extends Controller
         $form = $this->createForm(NotificationsForm::class);
         return $this->render('@Modules/masterclass/views/admin/index.html.twig', [
             'layoutTitle' => 'Controller using PrestaShop 1.7 new architecture.',
-            'showContentHeader' => false,
-            'enableSidebar' => false,
+            'help_link' => false,
             'notificationsForm' => $form->createView()
         ]);
     }
