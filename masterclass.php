@@ -24,7 +24,10 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
+require_once __DIR__.'/vendor/autoload.php';
+
 use PrestaShop\PrestaShop\Core\Grid\Definition\GridDefinitionInterface;
+use MasterClass\Utils\TabManager;
 
 class masterclass extends Module
 {
@@ -94,59 +97,21 @@ class masterclass extends Module
 
     public function installTabs()
     {
-        $mainTab = new Tab();
-        $mainTab->active = 1;
-        $mainTab->class_name = 'AdminMasterClass';
-        $mainTab->name = array();
-        foreach (Language::getLanguages(true) as $lang) {
-            $mainTab->name[$lang['id_lang']] = 'Master Class';
-        }
+        $moduleName = $this->name;
 
-        $mainTab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
+        TabManager::addTab('AdminMasterClass', 'Master Class', $moduleName, 'AdminTools');
+        TabManager::addTab('AdminMasterIndexClass', 'Exemple', $moduleName, 'AdminMasterClass');
+        TabManager::addTab('AdminMasterListingClass', 'Listing', $moduleName, 'AdminMasterClass');
 
-        $mainTab->module = $this->name;
-
-        $mainTab->add();
-
-        $indexTab = new Tab();
-        $indexTab->active = 1;
-        $indexTab->class_name = 'AdminMasterIndexClass';
-        $indexTab->name = array();
-        foreach (Language::getLanguages(true) as $lang) {
-            $indexTab->name[$lang['id_lang']] = 'Exemple';
-        }
-
-        $indexTab->id_parent = (int) Tab::getIdFromClassName('AdminMasterClass');
-
-        $indexTab->module = $this->name;
-
-        $indexTab->add();
-
-        $listingTab = new Tab();
-        $listingTab->active = 1;
-        $listingTab->class_name = 'AdminMasterListingClass';
-        $listingTab->name = array();
-        foreach (Language::getLanguages(true) as $lang) {
-            $listingTab->name[$lang['id_lang']] = 'Listing';
-        }
-
-        $listingTab->id_parent = (int) Tab::getIdFromClassName('AdminMasterClass');
-
-        $listingTab->module = $this->name;
-
-        $listingTab->add();
+        return true;
     }
 
     public function uninstallTabs()
     {
-        $id_tab = (int) Tab::getIdFromClassName('AdminMasterIndexClass');
-        $tab = new Tab($id_tab);
+        TabManager::removeTab('AdminMasterIndexClass');
+        TabManager::removeTab('AdminMasterListingClass');
+        TabManager::removeTab('AdminMasterClass');
 
-        $tab->delete();
-
-        $id_tab = (int) Tab::getIdFromClassName('AdminMasterClass');
-        $tab = new Tab($id_tab);
-
-        $tab->delete();
+        return true;
     }
 }
