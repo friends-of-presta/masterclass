@@ -1,0 +1,47 @@
+services:
+    _defaults:
+        # make all services accessible directly from container
+        public: true
+
+    # Register our grid definition factory
+    demogrid.grid.product_grid_definition_factory:
+        class: 'MasterClass\Grid\ProductGridDefinitionFactory'
+        parent: 'prestashop.core.grid.definition.factory.abstract_grid_definition'
+        arguments:
+            - "@=service('router').generate('admin_common_reset_search', {'controller': 'product', 'action': 'listing'})"
+            - "@=service('router').generate('masterclass_admin_products')"
+        public: true
+
+    # Register our query builder
+    demogrid.grid.product_query_builder:
+        class: 'MasterClass\Grid\ProductQueryBuilder'
+        parent: 'prestashop.core.grid.abstract_query_builder'
+        arguments:
+            - "@=service('prestashop.adapter.legacy.context').getContext().language.id"
+            - "@=service('prestashop.adapter.legacy.context').getContext().shop.id"
+        public: true
+
+    # Configure grid data provider to use our query builder that we registered above
+    demogrid.grid.product_data_factory:
+        class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
+        arguments:
+            - '@demogrid.grid.product_query_builder'
+            - '@prestashop.core.hook.dispatcher'
+            - '@prestashop.core.grid.query.doctrine_query_parser'
+            - 'demogrid_products'
+
+    # Configure grid factory which will use our grid definition factory and data provider services
+    demogrid.grid.product_grid_factory:
+        class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
+        arguments:
+            - '@demogrid.grid.product_grid_definition_factory' # our grid definition factory service
+            - '@demogrid.grid.product_data_factory'           # our data provider service
+            - '@prestashop.core.grid.filter.form_factory'
+
+    # Register our custom form type
+    demogrid.form.type.yes_and_no_choice:
+        class: 'MasterClass\Form\Type\YesAndNoChoiceType'
+        parent: 'form.type.translatable.aware'
+        tags:
+            - { name: form.type }
+        public: true

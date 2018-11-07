@@ -1,0 +1,21 @@
+masterclass_admin_index:
+    path: master-class
+    methods: [GET]
+    defaults:
+        _controller: 'MasterClass\Controller\Admin\ProductController::indexAction'
+        _legacy_controller: 'AdminMasterClass'
+        _legacy_link: AdminMasterClass:index
+
+masterclass_admin_products:
+    path: master-class/products
+    methods: [GET]
+    defaults:
+        _controller: 'MasterClass\Controller\Admin\ProductController::listingAction'
+        _legacy_controller: 'AdminMasterClass'
+        _legacy_link: AdminMasterClass:listing
+
+masterclass_admin_products_search:
+    path: master-class/products
+    methods: [POST]
+    defaults:
+        _controller: 'MasterClass\Controller\Admin\ProductController::listingSearchAction'

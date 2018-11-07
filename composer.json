@@ -1,0 +1,11 @@
+{
+    "name": "prestashop/demogrid",
+    "description": "A module for Grid component demo",
+    "autoload": {
+        "psr-4": {
+            "MasterClass\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "type": "prestashop-module"
+}
