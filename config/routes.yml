@@ -6,6 +6,13 @@ masterclass_admin_index:
         _legacy_controller: 'AdminMasterIndexClass'
         _legacy_link: AdminMasterIndexClass
 
+masterclass_admin_form:
+  path: master-class
+  methods: [POST]
+  defaults:
+    _controller: 'MasterClass\Controller\Admin\ExempleController::formAction'
+    _legacy_controller: 'AdminMasterIndexClass'
+
 masterclass_admin_products:
     path: master-class/products
     methods: [GET]

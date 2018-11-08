@@ -45,7 +45,7 @@ class masterclass extends Module
 
         parent::__construct();
 
-        $this->displayName = 'Demonstration Module';
+        $this->displayName = 'MasterClass module';
     }
 
     /**
@@ -121,6 +121,11 @@ class masterclass extends Module
         TabManager::removeTab('AdminMasterListingClass');
         TabManager::removeTab('AdminMasterClass');
 
+        return true;
+    }
+
+    public function isUsingNewTranslationSystem()
+    {
         return true;
     }
 }

@@ -42,10 +42,18 @@ class NotificationsForm extends CommonAbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('enable_notifications', SwitchType::class)
-            ->add('stock_limit', NumberType::class)
-            ->add('notifier_emails')
-            ->add('save', SubmitType::class)
+        $builder->add('enable_notifications', SwitchType::class, [
+                'label' => 'Activer les notifications ?'
+            ])
+            ->add('stock_limit', NumberType::class, [
+                'label' => 'Limite de stocks',
+            ])
+            ->add('list_emails', null, [
+                'label' => 'Liste des emails'
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Sauver'
+            ])
         ;
     }
 }

@@ -27,14 +27,15 @@
 namespace MasterClass\Controller\Admin;
 
 use PrestaShopBundle\Security\Annotation\AdminSecurity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use MasterClass\Form\Type\NotificationsForm;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @see https://devdocs.prestashop.com/1.7/development/architecture/migration-guide/controller-routing/#modern-symfony-controllers
  */
-class ExempleController extends Controller
+class ExempleController extends FrameworkBundleAdminController
 {
     /**
      * @see https://devdocs.prestashop.com/1.7/development/architecture/migration-guide/controller-routing/#security
@@ -47,11 +48,41 @@ class ExempleController extends Controller
      */
     public function indexAction()
     {
-        $form = $this->createForm(NotificationsForm::class);
+        $formData = [
+            'enable_notifications' => $this->configuration->getBoolean('MC_NOTIFICATIONS', true),
+            'stock_limit' => $this->configuration->getInt('MC_STOCK_LIMIT', 0),
+            'list_emails' => $this->configuration->get('MC_NOTIFIERS_EMAILS', ''),
+        ];
+
+        $form = $this->createForm(NotificationsForm::class, $formData);
+
         return $this->render('@Modules/masterclass/views/admin/index.html.twig', [
-            'layoutTitle' => 'Controller using PrestaShop 1.7 new architecture.',
+            'layoutTitle' => 'Contrôleur utilisant la nouvelle architecture',
             'help_link' => false,
             'notificationsForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @AdminSecurity(
+     *     "is_granted(['create', 'update'], request.get('_legacy_controller'))",
+     *     message="You do not have permission to change settings."
+     * )
+     *
+     * @return Response
+     */
+    public function formAction(Request $request)
+    {
+        $form = $this->createForm(NotificationsForm::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $formData = $form->getData();
+            $this->configuration->set('MC_NOTIFICATIONS', $formData['enable_notifications']);
+            $this->configuration->set('MC_STOCK_LIMIT', $formData['stock_limit']);
+            $this->configuration->set('MC_NOTIFIERS_EMAILS', $formData['list_emails']);
+        }
+
+        return $this->redirectToRoute('masterclass_admin_index');
     }
 }
