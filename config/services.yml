@@ -49,3 +49,7 @@ services:
             - '@demogrid.grid.product_grid_definition_factory' # our grid definition factory service
             - '@demogrid.grid.product_data_factory'                # our data provider service
             - '@prestashop.core.grid.filter.form_factory'
+
+    tab_manager:
+        class: MasterClass\Utils\TabManager
+        tags: ['front']
